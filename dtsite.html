@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NomadGear - Modular and Portable Bags</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--primary: #2a4365;
+--secondary: #4299e1;
+--accent: #f6ad55;
+--dark: #1a202c;
+--light: #f7fafc;
+--success: #48bb78;
+--danger: #f56565;
+}
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background-color: var(--light);
+color: var(--dark);
+overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+background-color: rgba(255, 255, 255, 0.95);
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+z-index: 1000;
+transition: all 0.3s ease;
+}
+
+nav.scrolled {
+background-color: rgba(42, 67, 101, 0.95);
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+nav.scrolled a {
+color: white;
+}
+
+nav.scrolled .logo {
+color: white;
+}
+
+.nav-container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1rem 5%;
+max-width: 1400px;
+margin: 0 auto;
+}
+
+.logo {
+font-size: 1.8rem;
+font-weight: 700;
+color: var(--primary);
+text-decoration: none;
+display: flex;
+align-items: center;
+transition: all 0.3s ease;
+}
+
+.logo i {
+margin-right: 0.5rem;
+color: var(--accent);
+}
+
+.nav-links {
+display: flex;
+list-style: none;
+}
+
+.nav-links li {
+margin-left: 2rem;
+}
+
+.nav-links a {
+text-decoration: none;
+color: var(--dark);
+font-weight: 600;
+transition: all 0.3s ease;
+position: relative;
+}
+
+.nav-links a:hover {
+color: var(--secondary);
+}
+
+.nav-links a::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -5px;
+left: 0;
+background-color: var(--secondary);
+transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+width: 100%;
+}
+
+.hamburger {
+display: none;
+cursor: pointer;
+}
+
+.hamburger div {
+width: 25px;
+height: 3px;
+background-color: var(--dark);
+margin: 5px;
+transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.hero {
+height: 100vh;
+background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: white;
+padding: 0 2rem;
+}
+
+.hero h1 {
+font-size: 4rem;
+margin-bottom: 1rem;
+animation: fadeInDown 1s ease;
+}
+
+.hero h2 {
+font-size: 2rem;
+margin-bottom: 2rem;
+animation: fadeInDown 1.2s ease;
+}
+
+.hero p {
+font-size: 1.2rem;
+max-width: 800px;
+margin-bottom: 2rem;
+animation: fadeInUp 1.4s ease;
+}
+
+.cta-button {
+display: inline-block;
+background-color: var(--accent);
+color: var(--dark);
+padding: 0.8rem 2rem;
+border-radius: 50px;
+text-decoration: none;
+font-weight: 600;
+font-size: 1.1rem;
+transition: all 0.3s ease;
+animation: fadeInUp 1.6s ease;
+box-shadow: 0 4px 15px rgba(246, 173, 85, 0.4);
+}
+
+.cta-button:hover {
+transform: translateY(-3px);
+box-shadow: 0 6px 20px rgba(246, 173, 85, 0.6);
+background-color: #f59e0b;
+}
+
+/* Features Section */
+.features {
+padding: 5rem 5%;
+background-color: white;
+}
+
+.section-title {
+text-align: center;
+margin-bottom: 3rem;
+position: relative;
+}
+
+.section-title h2 {
+font-size: 2.5rem;
+color: var(--primary);
+display: inline-block;
+}
+
+.section-title h2::after {
+content: '';
+position: absolute;
+width: 80px;
+height: 4px;
+background-color: var(--accent);
+bottom: -10px;
+left: 50%;
+transform: translateX(-50%);
+border-radius: 2px;
+}
+
+.features-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin-top: 3rem;
+}
+
+.feature-card {
+background-color: var(--light);
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+transition: all 0.3s ease;
+opacity: 0;
+transform: translateY(20px);
+}
+
+.feature-card.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.feature-card:nth-child(1) {
+transition-delay: 0.1s;
+}
+
+.feature-card:nth-child(2) {
+transition-delay: 0.2s;
+}
+
+.feature-card:nth-child(3) {
+transition-delay: 0.3s;
+}
+
+.feature-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-img {
+height: 250px;
+overflow: hidden;
+}
+
+.feature-img img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: transform 0.5s ease;
+}
+
+.feature-card:hover .feature-img img {
+transform: scale(1.1);
+}
+
+.feature-content {
+padding: 1.5rem;
+}
+
+.feature-content h3 {
+font-size: 1.5rem;
+margin-bottom: 0.5rem;
+color: var(--primary);
+}
+
+.feature-content p {
+color: #666;
+margin-bottom: 1rem;
+}
+
+.feature-list {
+list-style: none;
+margin-bottom: 1.5rem;
+}
+
+.feature-list li {
+margin-bottom: 0.5rem;
+display: flex;
+align-items: center;
+}
+
+.feature-list li i {
+color: var(--success);
+margin-right: 0.5rem;
+}
+
+.price {
+font-size: 1.3rem;
+font-weight: 700;
+color: var(--primary);
+margin-bottom: 1rem;
+}
+
+.feature-button {
+display: inline-block;
+background-color: var(--secondary);
+color: white;
+padding: 0.6rem 1.5rem;
+border-radius: 50px;
+text-decoration: none;
+font-weight: 600;
+transition: all 0.3s ease;
+}
+
+.feature-button:hover {
+background-color: #3182ce;
+}
+
+/* About Section */
+.about {
+padding: 5rem 5%;
+background-color: var(--light);
+}
+
+.about-container {
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 3rem;
+}
+
+.about-img {
+flex: 1;
+min-width: 300px;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.about-img img {
+width: 100%;
+height: auto;
+display: block;
+}
+
+.about-content {
+flex: 1;
+min-width: 300px;
+}
+
+.about-content h2 {
+font-size: 2.5rem;
+color: var(--primary);
+margin-bottom: 1.5rem;
+}
+
+.about-content p {
+color: #666;
+margin-bottom: 1.5rem;
+line-height: 1.6;
+}
+
+.about-list {
+list-style: none;
+margin-bottom: 2rem;
+}
+
+.about-list li {
+margin-bottom: 0.8rem;
+display: flex;
+align-items: center;
+}
+
+.about-list li i {
+color: var(--accent);
+margin-right: 0.5rem;
+font-size: 1.2rem;
+}
+
+/* Contact Section */
+.contact {
+padding: 5rem 5%;
+background-color: white;
+}
+
+.contact-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 3rem;
+}
+
+.contact-info {
+display: flex;
+flex-direction: column;
+}
+
+.contact-info h3 {
+font-size: 1.8rem;
+color: var(--primary);
+margin-bottom: 1.5rem;
+}
+
+.contact-info p {
+color: #666;
+margin-bottom: 2rem;
+line-height: 1.6;
+}
+
+.contact-details {
+list-style: none;
+}
+
+.contact-details li {
+margin-bottom: 1rem;
+display: flex;
+align-items: center;
+}
+
+.contact-details li i {
+color: var(--secondary);
+margin-right: 1rem;
+font-size: 1.2rem;
+width: 20px;
+text-align: center;
+}
+
+.contact-form {
+background-color: var(--light);
+padding: 2rem;
+border-radius: 10px;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.contact-form h3 {
+font-size: 1.8rem;
+color: var(--primary);
+margin-bottom: 1.5rem;
+}
+
+.form-group {
+margin-bottom: 1.5rem;
+}
+
+.form-group label {
+display: block;
+margin-bottom: 0.5rem;
+color: #666;
+font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+width: 100%;
+padding: 0.8rem 1rem;
+border: 1px solid #ddd;
+border-radius: 5px;
+font-size: 1rem;
+transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+border-color: var(--secondary);
+outline: none;
+box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.form-group textarea {
+min-height: 150px;
+resize: vertical;
+}
+
+.submit-button {
+background-color: var(--secondary);
+color: white;
+border: none;
+padding: 0.8rem 2rem;
+border-radius: 50px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+background-color: #3182ce;
+}
+
+/* Footer */
+footer {
+background-color: var(--primary);
+color: white;
+padding: 3rem 5%;
+text-align: center;
+}
+
+.footer-container {
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.footer-logo {
+font-size: 2rem;
+font-weight: 700;
+margin-bottom: 1.5rem;
+display: inline-block;
+}
+
+.footer-links {
+display: flex;
+justify-content: center;
+list-style: none;
+margin-bottom: 2rem;
+flex-wrap: wrap;
+}
+
+.footer-links li {
+margin: 0 1rem;
+}
+
+.footer-links a {
+color: white;
+text-decoration: none;
+transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+color: var(--accent);
+}
+
+.social-links {
+display: flex;
+justify-content: center;
+list-style: none;
+margin-bottom: 2rem;
+}
+
+.social-links li {
+margin: 0 0.5rem;
+}
+
+.social-links a {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 40px;
+height: 40px;
+background-color: rgba(255, 255, 255, 0.1);
+border-radius: 50%;
+color: white;
+transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+background-color: var(--accent);
+color: var(--dark);
+transform: translateY(-3px);
+}
+
+.copyright {
+color: rgba(255, 255, 255, 0.7);
+font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+from {
+opacity: 0;
+transform: translateY(-30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+.nav-links {
+position: fixed;
+top: 80px;
+left: -100%;
+width: 100%;
+height: calc(100vh - 80px);
+background-color: white;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+transition: all 0.5s ease;
+}
+
+.nav-links.active {
+left: 0;
+}
+
+.nav-links li {
+margin: 1.5rem 0;
+}
+
+.hamburger {
+display: block;
+}
+
+.hamburger.active div:nth-child(1) {
+transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active div:nth-child(2) {
+opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.hero h1 {
+font-size: 2.5rem;
+}
+
+.hero h2 {
+font-size: 1.5rem;
+}
+
+.section-title h2 {
+font-size: 2rem;
+}
+
+.about-container {
+flex-direction: column;
+}
+}
+</style>
+</head>
+<body>
+<!-- Navigation -->
+<nav>
+<div class="nav-container">
+<a href="#" class="logo"><i class="fas fa-backpack"></i> NomadGear</a>
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#features">Products</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<div class="hamburger">
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+<h1>Make Bags Exciting</h1>
+<h2>MODULAR AND PORTABLE BAGS</h2>
+<p>Our multipurpose survival bags are engineered with high-quality materials and intelligent design to adapt to your needs in the most extreme conditions.</p>
+<a href="#features" class="cta-button">Explore Products</a>
+</section>
+
+<!-- Features Section -->
+<section class="features" id="features">
+<div class="section-title">
+<h2>Our Products</h2>
+</div>
+<div class="features-container">
+<!-- Adventurer Bag -->
+<div class="feature-card">
+<div class="feature-img">
+<img src="C:\Users\ccpd\Downloads\adventurer bag.JPG" alt="Adventurer Bag">
+</div>
+<div class="feature-content">
+<h3>Adventurer Bag</h3>
+<p>The ultimate companion for outdoor enthusiasts! This versatile bag transforms into a chair and a sleeping bag.</p>
+<ul class="feature-list">
+<li><i class="fas fa-check"></i> Emergency Smoke Indicator</li>
+<li><i class="fas fa-check"></i> Integrated Water Filter</li>
+<li><i class="fas fa-check"></i> Solar Panel for power</li>
+<li><i class="fas fa-check"></i> Ultrasonic animal repellent</li>
+<li><i class="fas fa-check"></i> Built-in charging dock</li>
+</ul>
+<div class="price">Starting from ₹3000</div>
+<a href="#contact" class="feature-button">Order Now</a>
+</div>
+</div>
+
+<!-- Guardian Bag -->
+<div class="feature-card">
+<div class="feature-img">
+<img src="C:\Users\ccpd\Downloads\guardian bag.JPG" alt="Guardian Bag">
+</div>
+<div class="feature-content">
+<h3>Guardian Bag</h3>
+<p>Built for durability and safety in challenging environments. Water and fireproof, designed to float in emergencies.</p>
+<ul class="feature-list">
+<li><i class="fas fa-check"></i> Water and fireproof material</li>
+<li><i class="fas fa-check"></i> Floatation capability</li>
+<li><i class="fas fa-check"></i> Detachable compartments</li>
+<li><i class="fas fa-check"></i> Emergency smoke indicators</li>
+<li><i class="fas fa-check"></i> First aid compartment</li>
+</ul>
+<div class="price">Starting from ₹3000</div>
+<a href="#contact" class="feature-button">Order Now</a>
+</div>
+</div>
+
+<!-- Traveler Bag -->
+<div class="feature-card">
+<div class="feature-img">
+<img src="C:\Users\ccpd\Downloads\traveller bag.JPG" alt="Traveler Bag">
+</div>
+<div class="feature-content">
+<h3>Traveler Bag</h3>
+<p>Easy to pack and transport, this bag also converts into a chair and trolley for added convenience.</p>
+<ul class="feature-list">
+<li><i class="fas fa-check"></i> Compact and lightweight</li>
+<li><i class="fas fa-check"></i> Converts to chair and trolley</li>
+<li><i class="fas fa-check"></i> Ergonomic padded straps</li>
+<li><i class="fas fa-check"></i> Water-resistant materials</li>
+<li><i class="fas fa-check"></i> Modern stylish design</li>
+</ul>
+<div class="price">Starting from ₹3000</div>
+<a href="#contact" class="feature-button">Order Now</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+<div class="about-container">
+<div class="about-img">
+<img src="C:\Users\ccpd\Downloads\pamphlet.JPG" alt="About NomadGear">
+</div>
+<div class="about-content">
+<h2>About NomadGear</h2>
+<p>Our Multipurpose Survival Bag is more than just a backpack; it is an all-in-one survival companion. Engineered with high-quality materials and an intelligent design.</p>
+<p>Innovation meets practicality in our revolutionary Multipurpose Survival Bag. Designed for trekkers, military personnel, disaster relief teams, and travelers, this bag adapts to your needs in the most extreme conditions.</p>
+<ul class="about-list">
+<li><i class="fas fa-check-circle"></i> High-quality, durable materials</li>
+<li><i class="fas fa-check-circle"></i> Innovative transformation features</li>
+<li><i class="fas fa-check-circle"></i> Designed for extreme conditions</li>
+<li><i class="fas fa-check-circle"></i> Customizable modular components</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+<div class="section-title">
+<h2>Contact Us</h2>
+</div>
+<div class="contact-container">
+<div class="contact-info">
+<h3>Get In Touch</h3>
+<p>Have questions about our products or want to place an order? Contact us using the information below or fill out the form.</p>
+<ul class="contact-details">
+<li><i class="fas fa-phone"></i> +91 9876543219</li>
+<li><i class="fas fa-phone"></i> +91 9998887776</li>
+<li><i class="fas fa-envelope"></i> modular@gmail.com</li>
+<li><i class="fas fa-map-marker-alt"></i> CSE AI&DS, NIT Warangal</li>
+</ul>
+</div>
+<div class="contact-form">
+<h3>Send Us a Message</h3>
+<form id="contactForm">
+<div class="form-group">
+<label for="name">Name</label>
+<input type="text" id="name" name="name" required>
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required>
+</div>
+<div class="form-group">
+<label for="phone">Phone</label>
+<input type="tel" id="phone" name="phone">
+</div>
+<div class="form-group">
+<label for="message">Message</label>
+<textarea id="message" name="message" required></textarea>
+</div>
+<button type="submit" class="submit-button">Send Message</button>
+</form>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+<div class="footer-container">
+<a href="#" class="footer-logo">NomadGear</a>
+<ul class="footer-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#features">Products</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#">Privacy Policy</a></li>
+<li><a href="#">Terms of Service</a></li>
+</ul>
+<ul class="social-links">
+<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+<li><a href="#"><i class="fab fa-youtube"></i></a></li>
+</ul>
+<p class="copyright">© 2025 NomadGear. All Rights Reserved.</p>
+</div>
+</footer>
+
+<script>
+// Mobile Navigation
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click', () => {
+hamburger.classList.toggle('active');
+navLinks.classList.toggle('active');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+link.addEventListener('click', () => {
+hamburger.classList.remove('active');
+navLinks.classList.remove('active');
+});
+});
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+const nav = document.querySelector('nav');
+nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Scroll animation for feature cards
+const featureCards = document.querySelectorAll('.feature-card');
+
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+}
+});
+}, { threshold: 0.1 });
+
+featureCards.forEach(card => {
+observer.observe(card);
+});
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function(e) {
+e.preventDefault();
+
+const targetId = this.getAttribute('href');
+if (targetId === '#') return;
+
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+window.scrollTo({
+top: targetElement.offsetTop - 80,
+behavior: 'smooth'
+});
+}
+});
+});
+
+// Form submission
+const contactForm = document.getElementById('contactForm');
+
+contactForm.addEventListener('submit', function(e) {
+e.preventDefault();
+
+// Get form values
+const name = document.getElementById('name').value;
+const email = document.getElementById('email').value;
+const phone = document.getElementById('phone').value;
+const message = document.getElementById('message').value;
+
+// Here you would typically send the data to a server
+// For this example, we'll just show an alert
+alert(`Thank you, ${name}! Your message has been received. We'll contact you soon at ${email}.`);
+
+// Reset the form
+contactForm.reset();
+});
+</script>
+</body>
+</html>
